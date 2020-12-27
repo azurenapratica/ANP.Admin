@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,40 +15,26 @@ namespace ANPAdmin.UI.Pages
 
         public void OnGet()
         {
-            List<Task<long>> taskList = new List<Task<long>>();
-            var timer = new Timer(Print, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
-
-            for (int i = 0; i < 1000; i++)
-            {
-                taskList.Add(DoMagic());
-            }
-
-            Task.WaitAll(taskList.ToArray());
-
-            timer.Change(Timeout.Infinite, Timeout.Infinite);
-            timer = null;
-
-            //to check that we have all the threads executed
+            ConsumeCPU(75);
         }
-
-        static void Print(object state)
+        
+        public static void ConsumeCPU(int percentage)
         {
-            Console.WriteLine(currentExecutionCount);
-        }
-
-        static async Task<long> DoMagic()
-        {
-            return await Task.Factory.StartNew(() =>
+            if (percentage < 0 || percentage > 100)
+                throw new ArgumentException("percentage");
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            while (true)
             {
-                Interlocked.Increment(ref currentExecutionCount);
-                //place your code here
-                Thread.Sleep(TimeSpan.FromMilliseconds(1000));
-                Interlocked.Decrement(ref currentExecutionCount);
-                return 4;
+                // Make the loop go on for "percentage" milliseconds then sleep the 
+                // remaining percentage milliseconds. So 40% utilization means work 40ms and sleep 60ms
+                if (watch.ElapsedMilliseconds > percentage)
+                {
+                    Thread.Sleep(100 - percentage);
+                    watch.Reset();
+                    watch.Start();
+                }
             }
-            //this thing should give a hint to scheduller to use new threads and not scheduled
-            , TaskCreationOptions.LongRunning
-            );
         }
     }
 }
