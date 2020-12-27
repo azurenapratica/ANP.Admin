@@ -1,4 +1,6 @@
 ﻿@using Microsoft.Extensions.Configuration
+@using Newtonsoft.Json
+@using System.Net
 @inject IConfiguration Configuration
 <!DOCTYPE html>
 <html lang="en">
@@ -70,7 +72,23 @@
                                     <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
                                     <span class="ml-2 d-none d-lg-block">
                                         <span class="text-default">Milton Camara</span>
-                                        <small class="text-muted d-block mt-1">@Configuration.GetSection("Settings")["Env"] - @Configuration.GetSection("Settings")["Region"] - @Environment.MachineName</small>
+                                        @{
+                                            string url = "http://checkip.dyndns.org";
+                                            System.Net.WebRequest req = System.Net.WebRequest.Create(url);
+                                            System.Net.WebResponse resp = req.GetResponse();
+                                            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+                                            string response = sr.ReadToEnd().Trim();
+                                            string[] a = response.Split(':');
+                                            string a2 = a[1].Substring(1);
+                                            string[] a3 = a2.Split('<');
+                                            string ip = a3[0];
+
+                                            ///Obtem a Região do IP
+                                            ANPAdmin.UI.Model.IpInfo ipInfo = new ANPAdmin.UI.Model.IpInfo();
+                                            string info = new WebClient().DownloadString("http://ipinfo.io/" + ip);
+                                            ipInfo = JsonConvert.DeserializeObject <ANPAdmin.UI.Model.IpInfo>(info);
+                                        }
+                                        <small class="text-muted d-block mt-1">@Configuration.GetSection("Settings")["Env"] | @ipInfo.City - @ipInfo.Country | @Environment.MachineName</small>
                                     </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">

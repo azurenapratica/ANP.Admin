@@ -11,7 +11,6 @@ namespace ANPAdmin.UI.Pages
 {
     public class LoadTestModel : PageModel
     {
-        static volatile int currentExecutionCount = 0;
 
         public void OnGet()
         {
