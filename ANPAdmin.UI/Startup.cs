@@ -24,6 +24,7 @@ namespace ANPAdmin.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
             services.AddApplicationInsightsTelemetry(Configuration);
             services.ConfigureTelemetryModule<DependencyTrackingTelemetryModule>(
                 (module, o) =>
@@ -52,6 +53,7 @@ namespace ANPAdmin.UI
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseHealthChecks("/check");
 
             app.UseAuthorization();
 
