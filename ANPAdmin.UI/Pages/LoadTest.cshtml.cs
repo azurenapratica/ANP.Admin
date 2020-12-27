@@ -14,26 +14,36 @@ namespace ANPAdmin.UI.Pages
 
         public void OnGet()
         {
-            ConsumeCPU(75);
-        }
-        
-        public static void ConsumeCPU(int percentage)
-        {
-            if (percentage < 0 || percentage > 100)
-                throw new ArgumentException("percentage");
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-            while (true)
+            if (Request.QueryString.HasValue)
             {
-                // Make the loop go on for "percentage" milliseconds then sleep the 
-                // remaining percentage milliseconds. So 40% utilization means work 40ms and sleep 60ms
-                if (watch.ElapsedMilliseconds > percentage)
-                {
-                    Thread.Sleep(100 - percentage);
-                    watch.Reset();
-                    watch.Start();
-                }
+                FindPrimeNumber(Convert.ToInt32(Request.Query["n"]));
             }
+        }
+
+        public long FindPrimeNumber(int n)
+        {
+            int count = 0;
+            long a = 2;
+            while (count < n)
+            {
+                long b = 2;
+                int prime = 1;// to check if found a prime
+                while (b * b <= a)
+                {
+                    if (a % b == 0)
+                    {
+                        prime = 0;
+                        break;
+                    }
+                    b++;
+                }
+                if (prime > 0)
+                {
+                    count++;
+                }
+                a++;
+            }
+            return (--a);
         }
     }
 }
