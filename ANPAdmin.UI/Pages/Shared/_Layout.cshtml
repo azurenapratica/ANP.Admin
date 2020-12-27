@@ -73,22 +73,26 @@
                                     <span class="ml-2 d-none d-lg-block">
                                         <span class="text-default">Milton Camara</span>
                                         @{
-                                            string url = "http://checkip.dyndns.org";
-                                            System.Net.WebRequest req = System.Net.WebRequest.Create(url);
-                                            System.Net.WebResponse resp = req.GetResponse();
-                                            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
-                                            string response = sr.ReadToEnd().Trim();
-                                            string[] a = response.Split(':');
-                                            string a2 = a[1].Substring(1);
-                                            string[] a3 = a2.Split('<');
-                                            string ip = a3[0];
+                                            if (ANPAdmin.UI.Model.GlobalVariables.ActualRegion == null)
+                                            {
+                                                string url = "http://checkip.dyndns.org";
+                                                System.Net.WebRequest req = System.Net.WebRequest.Create(url);
+                                                System.Net.WebResponse resp = req.GetResponse();
+                                                System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+                                                string response = sr.ReadToEnd().Trim();
+                                                string[] a = response.Split(':');
+                                                string a2 = a[1].Substring(1);
+                                                string[] a3 = a2.Split('<');
+                                                string ip = a3[0];
 
-                                            ///Obtem a Região do IP
-                                            ANPAdmin.UI.Model.IpInfo ipInfo = new ANPAdmin.UI.Model.IpInfo();
-                                            string info = new WebClient().DownloadString("http://ipinfo.io/" + ip);
-                                            ipInfo = JsonConvert.DeserializeObject <ANPAdmin.UI.Model.IpInfo>(info);
+                                                ///Obtem a Região do IP
+                                                ANPAdmin.UI.Model.IpInfo ipInfo = new ANPAdmin.UI.Model.IpInfo();
+                                                string info = new WebClient().DownloadString("http://ipinfo.io/" + ip);
+                                                ipInfo = JsonConvert.DeserializeObject<ANPAdmin.UI.Model.IpInfo>(info);
+                                                ANPAdmin.UI.Model.GlobalVariables.ActualRegion = $"{ipInfo.City}-{ipInfo.Country}";
+                                            }
                                         }
-                                        <small class="text-muted d-block mt-1">@Configuration.GetSection("Settings")["Env"] | @ipInfo.City - @ipInfo.Country | @Environment.MachineName</small>
+                                    <small class="text-muted d-block mt-1">@Configuration.GetSection("Settings")["Env"] | @ANPAdmin.UI.Model.GlobalVariables.ActualRegion | @Environment.MachineName</small>
                                     </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
