@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +24,13 @@ namespace ANPAdmin.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry(Configuration);
+            services.ConfigureTelemetryModule<DependencyTrackingTelemetryModule>(
+                (module, o) =>
+                {
+                    module.EnableSqlCommandTextInstrumentation = true;
+                });
+
             services.AddRazorPages();
         }
 
