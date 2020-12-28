@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace ANPAdmin.UI.Pages
 {
@@ -17,9 +15,15 @@ namespace ANPAdmin.UI.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            if (HttpContext.Session.GetString("USER_LOGIN") == null)
+            {
+                await Task.Run(() => { });
+                return RedirectToPage("login");
+            }
 
+            return Page();
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿@page
+@model LoginModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = null;
 }
@@ -33,19 +35,19 @@
                         <div class="text-center mb-6">
                             <img src="~/demo/brand/logo-2-A-1x.png" class="h-6" alt="">
                         </div>
-                           <form class="card" action="" method="post">
-                            <div class="card-body p-6">
+                        <form class="card" action="" method="post">
+                            <div asp-action="" class="card-body p-6">
                                 <div class="card-title">Acessar Conta</div>
                                 <div class="form-group">
                                     <label class="form-label">E-mail</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Seu e-mail">
+                                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Seu e-mail" value="suporte@azurenapratica.com">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">
                                         Senha
                                         <a href="javascript:alert('Funcionalidade não disponível');return false;" class="float-right small">Esqueci minha Senha</a>
                                     </label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Senha" value="12345">
                                 </div>
                                 <div class="form-group">
                                     <label class="custom-control custom-checkbox">

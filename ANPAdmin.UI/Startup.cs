@@ -25,6 +25,7 @@ namespace ANPAdmin.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHealthChecks();
+            services.AddSession();
             services.AddApplicationInsightsTelemetry(Configuration);
             services.ConfigureTelemetryModule<DependencyTrackingTelemetryModule>(
                 (module, o) =>
@@ -55,6 +56,7 @@ namespace ANPAdmin.UI
             app.UseRouting();
             app.UseHealthChecks("/check");
 
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
