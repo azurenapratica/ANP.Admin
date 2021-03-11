@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ANPAdmin.Business;
+using ANPAdmin.Data;
+using FluentMigrator.Runner;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +22,14 @@ namespace ANPAdmin.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddFluentMigratorCore()
+                .ConfigureRunner(cfg => cfg
+                    .AddSqlServer()
+                    .WithGlobalConnectionString(Configuration.GetConnectionString("BaseComm"))
+                    .ScanIn(typeof(Startup).Assembly).For.Migrations()
+                )
+                .AddLogging(cfg => cfg.AddFluentMigratorConsole());
+
             services.AddHealthChecks();
             services.AddSession();
             services.AddApplicationInsightsTelemetry(Configuration);
@@ -34,11 +40,16 @@ namespace ANPAdmin.UI
                 });
 
             services.AddRazorPages();
+
+            services.AddScoped<IAuth, Auth>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMigrationRunner migrationRunner)
         {
+            migrationRunner.MigrateUp();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

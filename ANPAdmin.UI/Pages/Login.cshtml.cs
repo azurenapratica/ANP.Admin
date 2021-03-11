@@ -1,4 +1,5 @@
-﻿using ANPAdmin.UI.Helpers;
+﻿using ANPAdmin.Business;
+using ANPAdmin.UI.Helpers;
 using ANPAdmin.UI.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,13 @@ namespace ANPAdmin.UI.Pages
 
         }
 
+        private IAuth _auth;
+
+        public LoginModel(IAuth auth)
+        {
+            _auth = auth;
+        }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -31,6 +39,7 @@ namespace ANPAdmin.UI.Pages
 
             await Task.Run(() =>
             {
+                _auth.Login(Email, Password);
                 var user = new UserModel(Email);
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "USER_LOGIN", user);
             });

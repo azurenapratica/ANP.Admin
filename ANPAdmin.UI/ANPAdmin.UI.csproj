@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentMigrator" Version="3.2.15" />
+    <PackageReference Include="FluentMigrator.Runner" Version="3.2.15" />
     <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.16.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
@@ -14,6 +16,10 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\js\NewFolder\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ANPAdmin.Business\ANPAdmin.Business.csproj" />
   </ItemGroup>
 
 </Project>
