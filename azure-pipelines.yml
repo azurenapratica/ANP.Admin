@@ -1,0 +1,13 @@
+trigger:
+- master
+
+jobs:
+ - job: Build
+   pool:
+    vmImage: ubuntu-latest
+   steps:
+   - bash: |
+      dotnet build ./ANPAdmin.sln
+
+
+
