@@ -52,7 +52,6 @@ stages:
       - job: Deploy_Homolog
         pool:
           vmImage: ubuntu-latest
-        dependsOn: Build
         steps:
           - task: DownloadBuildArtifacts@0
             inputs:
