@@ -40,7 +40,7 @@ namespace ANPAdmin.InterfaceTests
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("pt-BR"), "", "Fluxo de Login do Usuario", "\tSimple calculator for adding two numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("pt-BR"), "", "Fluxo de Login do Usuario", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -88,7 +88,7 @@ namespace ANPAdmin.InterfaceTests
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Efetuar Login com Dados Inválidos", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 4
+#line 3
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -108,16 +108,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 5
+#line 4
  testRunner.Given("que o usuario digite o email teste@teste.com.br", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Dado ");
 #line hidden
-#line 6
+#line 5
  testRunner.And("a senha teste123", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
 #line hidden
-#line 7
- testRunner.When("o usuario clicar no botão login", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
+#line 6
+ testRunner.When("o usuario clicar no botão login com dados invalidos", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
 #line hidden
-#line 8
+#line 7
  testRunner.Then("mostra uma mensagem de erro na tela", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
 #line hidden
             }
@@ -132,7 +132,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Efetuar Login com Dados Válidos", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 10
+#line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -152,16 +152,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 10
+ testRunner.Given("que o usuario digite o email suporte@azurenapratica.com", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Dado ");
+#line hidden
 #line 11
- testRunner.Given("que o usuario digite o email teste@teste.com.br", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Dado ");
+ testRunner.And("a senha teste@123", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
 #line hidden
 #line 12
- testRunner.And("a senha teste123", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "E ");
+ testRunner.When("o usuario clicar no botão login com dados validos", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
 #line hidden
 #line 13
- testRunner.When("o usuario clicar no botão login", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
-#line hidden
-#line 14
  testRunner.Then("redireciona o usuario para a página inicial", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
 #line hidden
             }

@@ -1,4 +1,5 @@
 ﻿using ANPAdmin.InterfaceTests.PageObjects;
+using Microsoft.Extensions.Configuration;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -7,42 +8,61 @@ namespace ANPAdmin.InterfaceTests
     [Binding]
     public sealed class LoginUsuarioStepDefinition
     {
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
+        private readonly IConfiguration _configuration;
         private readonly ScenarioContext _scenarioContext;
-        private TelaLogin _telaLogin;
+        private readonly TelaLogin _telaLogin;
+        private string _email;
 
-        public LoginUsuarioStepDefinition(ScenarioContext scenarioContext)
+        public LoginUsuarioStepDefinition(ScenarioContext scenarioContext, IConfiguration configuration)
         {
             _scenarioContext = scenarioContext;
-            _telaLogin = new TelaLogin(_scenarioContext.ScenarioInfo.Title);
-            _telaLogin.CarregarPagina();
+            _configuration = configuration;
 
+            _telaLogin = new TelaLogin(_configuration);
+            _telaLogin.CarregarPagina();
         }
 
         [Given("que o usuario digite o email (.*)")]
-        public void QueOUsuarioDigiteOEmail(string email)
+        public void DadoQueOUsuarioDigiteOEmail(string email)
         {
             _telaLogin.PreencherCampo("email", email);
+            _email = email;
         }
 
         [Given("a senha (.*)")]
-        public void GivenTheSecondNumberIs(string senha)
+        public void DadoQueOUsuarioDigiteASenha(string senha)
         {
             _telaLogin.PreencherCampo("password", senha);
         }
 
-        [When("o usuario clicar no botão login")]
-        public void WhenTheTwoNumbersAreAdded()
+        [When("o usuario clicar no botão login com dados invalidos")]
+        public void QuandoOUsuarioClicarNoBotaoLoginComDadosInvalidos()
         {
-            _telaLogin.EfetuarLogin();
+            _telaLogin.EfetuarLoginComErro();
+        }
+
+        [When("o usuario clicar no botão login com dados validos")]
+        public void QuandoOUsuarioClicarNoBotaoLoginComDadosValidos()
+        {
+            _telaLogin.EfetuarLoginComSucesso();
         }
 
         [Then("mostra uma mensagem de erro na tela")]
-        public void ThenTheResultShouldBe()
+        public void EntaoDeveExibirMensagemDeErro()
         {
             var resultado = _telaLogin.ObterMensagemDeErro();
-            Assert.Equal("", resultado);
+            _telaLogin.Fechar();
+            
+            Assert.Equal("Usuário ou Senha inválidos.", resultado);
+        }
+
+        [Then("redireciona o usuario para a página inicial")]
+        public void EntaoDeveRedirecionarParaPaginaInicial()
+        {
+            var resultado = _telaLogin.ObterEmailLogado();
+            _telaLogin.Fechar();
+
+            Assert.Equal(_email, resultado);
         }
     }
 }

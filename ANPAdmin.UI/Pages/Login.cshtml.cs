@@ -1,11 +1,9 @@
 ﻿using ANPAdmin.Business;
 using ANPAdmin.UI.Helpers;
-using ANPAdmin.UI.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 
 namespace ANPAdmin.UI.Pages
 {

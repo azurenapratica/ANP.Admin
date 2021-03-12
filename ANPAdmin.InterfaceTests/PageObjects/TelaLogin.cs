@@ -1,4 +1,5 @@
 ﻿using ANPAdmin.InterfaceTests.Utils;
+using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -8,15 +9,16 @@ namespace ANPAdmin.InterfaceTests.PageObjects
 {
     public class TelaLogin
     {
-        private readonly string _cenario;
+        private readonly IConfiguration _configuration;
         private ChromeDriver _driver;
+        private readonly string _envHomologUrl = Environment.GetEnvironmentVariable("APP_URL");
 
-        public TelaLogin(string cenario)
+        public TelaLogin(IConfiguration configuration)
         {
-            _cenario = cenario;
+            _configuration = configuration;
 
             var chromeOptions = new ChromeOptions();
-            //chromeOptions.AddArgument("--headless");
+            chromeOptions.AddArgument("--headless");
 
             chromeOptions.SetLoggingPreference(LogType.Browser, LogLevel.Off);
             chromeOptions.SetLoggingPreference(LogType.Driver, LogLevel.Off);
@@ -30,7 +32,7 @@ namespace ANPAdmin.InterfaceTests.PageObjects
         public void CarregarPagina()
         {
             _driver.LoadPage(
-                TimeSpan.FromSeconds(5), "https://anpcomm-admin-exemplo-homolog.azurewebsites.net/Login");
+                TimeSpan.FromSeconds(5), _envHomologUrl);
         }
 
         public void PreencherCampo(string idCampo, string valor)
@@ -38,7 +40,7 @@ namespace ANPAdmin.InterfaceTests.PageObjects
             _driver.SetText(By.Id(idCampo), valor);
         }
 
-        public void EfetuarLogin()
+        public void EfetuarLoginComErro()
         {
             _driver.Submit(By.Id("btnSubmitForm"));
 
@@ -46,9 +48,22 @@ namespace ANPAdmin.InterfaceTests.PageObjects
             wait.Until((d) => d.FindElement(By.Id("div-error")) != null);
         }
 
+        public void EfetuarLoginComSucesso()
+        {
+            _driver.Submit(By.Id("btnSubmitForm"));
+
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+            wait.Until((d) => d.FindElement(By.XPath("/html/body/div/div[1]/div[1]/div/div/div/div[2]/a/span[2]/span")) != null);
+        }
+
         public string ObterMensagemDeErro()
         {
             return _driver.GetText(By.Id("div-error"));
+        }
+
+        public string ObterEmailLogado()
+        {
+            return _driver.GetText(By.XPath("/html/body/div/div[1]/div[1]/div/div/div/div[2]/a/span[2]/span"));
         }
 
         public void Fechar()
