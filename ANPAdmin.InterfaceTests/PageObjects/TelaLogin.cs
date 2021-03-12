@@ -4,16 +4,19 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.IO;
 
 namespace ANPAdmin.InterfaceTests.PageObjects
 {
     public class TelaLogin
     {
         private ChromeDriver _driver;
-        private readonly string _envHomologUrl = Environment.GetEnvironmentVariable("APP_URL");
-        private readonly string _envChromeDriverPath = Environment.GetEnvironmentVariable("CHROME_DRIVER_PATH");
-        //private readonly string _envChromeDriverPath = "C:\\chromedriver";
-        //private readonly string _envHomologUrl = "https://anpcomm-admin-exemplo-homolog.azurewebsites.net/login";
+        //private readonly string _envHomologUrl = Environment.GetEnvironmentVariable("APP_URL");
+        //private readonly string _envChromeDriverPath = Environment.GetEnvironmentVariable("CHROME_DRIVER_PATH");
+        //private readonly string _envAgentPath = Environment.GetEnvironmentVariable("AGENT_PATH");
+        private readonly string _envChromeDriverPath = "C:\\chromedriver";
+        private readonly string _envHomologUrl = "https://anpcomm-admin-exemplo-homolog.azurewebsites.net/login";
+        private readonly string _envAgentPath = Directory.GetCurrentDirectory();
 
         public TelaLogin()
         {
@@ -61,12 +64,19 @@ namespace ANPAdmin.InterfaceTests.PageObjects
 
         public string ObterMensagemDeErro()
         {
+            Screenshot screenShot = ((ITakesScreenshot)_driver).GetScreenshot();
+            string fileName = "Screenshot_" + "TelaLogin_MensagemErro.png";
+            screenShot.SaveAsFile((fileName), ScreenshotImageFormat.Png);
+
             return _driver.GetText(By.Id("div-error"));
         }
 
         public string ObterEmailLogado()
         {
-            var teste = _driver.PageSource;
+            Screenshot screenShot = ((ITakesScreenshot)_driver).GetScreenshot();
+            string fileName = "Screenshot_" + "TelaLogin_Sucesso.png";
+            screenShot.SaveAsFile((fileName), ScreenshotImageFormat.Png);
+
             return _driver.GetText(By.Id("lbl-user-email"));
         }
 
