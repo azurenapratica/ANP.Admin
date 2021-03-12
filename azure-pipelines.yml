@@ -28,11 +28,13 @@ stages:
           inputs:
             command: 'build'
             projects: '$(slnPath)'
-        - task: CopyFiles@2
+        - task: ArchiveFiles@2
           inputs:
-            SourceFolder: './ANPAdmin.InterfaceTests/bin/Debug/netcoreapp3.1'
-            Contents: '**'
-            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+            rootFolderOrFile: './ANPAdmin.InterfaceTests/bin/Debug/netcoreapp3.1'
+            includeRootFolder: true
+            archiveType: 'zip'
+            archiveFile: '$(Build.ArtifactStagingDirectory)/TestesInterface.zip'
+            replaceExistingArchive: true
         - task: DotNetCoreCLI@2
           inputs:
             command: 'publish'
