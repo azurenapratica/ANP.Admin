@@ -74,7 +74,7 @@
                                 <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
                                     <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
                                     <span class="ml-2 d-none d-lg-block">
-                                        <span class="text-default">
+                                        <span id="lbl-user-email" class="text-default">
                                             @{
                                                 var email = ANPAdmin.UI.Helpers.SessionHelper.GetObjectFromJson<ANPAdmin.UI.Model.UserModel>(HttpContextAccessor.HttpContext.Session, "USER_LOGIN").Email;
                                             }

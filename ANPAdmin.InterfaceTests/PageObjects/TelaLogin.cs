@@ -9,22 +9,20 @@ namespace ANPAdmin.InterfaceTests.PageObjects
 {
     public class TelaLogin
     {
-        private readonly IConfiguration _configuration;
         private ChromeDriver _driver;
         private readonly string _envHomologUrl = Environment.GetEnvironmentVariable("APP_URL");
+        private readonly string _envChromeDriverPath = Environment.GetEnvironmentVariable("CHROME_DRIVER_PATH");
 
-        public TelaLogin(IConfiguration configuration)
+        public TelaLogin()
         {
-            _configuration = configuration;
-
             var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArgument("--headless");
+            //chromeOptions.AddArgument("--headless");
 
             chromeOptions.SetLoggingPreference(LogType.Browser, LogLevel.Off);
             chromeOptions.SetLoggingPreference(LogType.Driver, LogLevel.Off);
 
-            if (!string.IsNullOrWhiteSpace("C:\\ChromeDriver\\"))
-                _driver = new ChromeDriver("C:\\ChromeDriver\\", chromeOptions);
+            if (!string.IsNullOrWhiteSpace(_envChromeDriverPath))
+                _driver = new ChromeDriver(_envChromeDriverPath, chromeOptions);
             else
                 _driver = new ChromeDriver(chromeOptions);
         }
@@ -53,7 +51,7 @@ namespace ANPAdmin.InterfaceTests.PageObjects
             _driver.Submit(By.Id("btnSubmitForm"));
 
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
-            wait.Until((d) => d.FindElement(By.XPath("/html/body/div/div[1]/div[1]/div/div/div/div[2]/a/span[2]/span")) != null);
+            wait.Until((d) => d.FindElement(By.Id("lbl-user-email")) != null);
         }
 
         public string ObterMensagemDeErro()
@@ -63,7 +61,7 @@ namespace ANPAdmin.InterfaceTests.PageObjects
 
         public string ObterEmailLogado()
         {
-            return _driver.GetText(By.XPath("/html/body/div/div[1]/div[1]/div/div/div/div[2]/a/span[2]/span"));
+            return _driver.GetText(By.Id("lbl-user-email"));
         }
 
         public void Fechar()

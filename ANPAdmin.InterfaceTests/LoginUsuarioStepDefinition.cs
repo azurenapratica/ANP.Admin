@@ -8,17 +8,15 @@ namespace ANPAdmin.InterfaceTests
     [Binding]
     public sealed class LoginUsuarioStepDefinition
     {
-        private readonly IConfiguration _configuration;
         private readonly ScenarioContext _scenarioContext;
         private readonly TelaLogin _telaLogin;
         private string _email;
 
-        public LoginUsuarioStepDefinition(ScenarioContext scenarioContext, IConfiguration configuration)
+        public LoginUsuarioStepDefinition(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            _configuration = configuration;
 
-            _telaLogin = new TelaLogin(_configuration);
+            _telaLogin = new TelaLogin();
             _telaLogin.CarregarPagina();
         }
 
@@ -53,7 +51,7 @@ namespace ANPAdmin.InterfaceTests
             var resultado = _telaLogin.ObterMensagemDeErro();
             _telaLogin.Fechar();
             
-            Assert.Equal("Usuário ou Senha inválidos.", resultado);
+            Assert.Equal("Usuário ou senha inválidos.", resultado);
         }
 
         [Then("redireciona o usuario para a página inicial")]
