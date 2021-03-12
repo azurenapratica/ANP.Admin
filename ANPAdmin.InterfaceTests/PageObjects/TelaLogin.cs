@@ -12,11 +12,14 @@ namespace ANPAdmin.InterfaceTests.PageObjects
         private ChromeDriver _driver;
         private readonly string _envHomologUrl = Environment.GetEnvironmentVariable("APP_URL");
         private readonly string _envChromeDriverPath = Environment.GetEnvironmentVariable("CHROME_DRIVER_PATH");
+        //private readonly string _envChromeDriverPath = "C:\\chromedriver";
+        //private readonly string _envHomologUrl = "https://anpcomm-admin-exemplo-homolog.azurewebsites.net/login";
 
         public TelaLogin()
         {
             var chromeOptions = new ChromeOptions();
-            //chromeOptions.AddArgument("--headless");
+            chromeOptions.AddArgument("--headless");
+            chromeOptions.AddArgument("window-size=1920x1080");
 
             chromeOptions.SetLoggingPreference(LogType.Browser, LogLevel.Off);
             chromeOptions.SetLoggingPreference(LogType.Driver, LogLevel.Off);
@@ -25,6 +28,8 @@ namespace ANPAdmin.InterfaceTests.PageObjects
                 _driver = new ChromeDriver(_envChromeDriverPath, chromeOptions);
             else
                 _driver = new ChromeDriver(chromeOptions);
+
+            _driver.Manage().Window.Maximize();
         }
 
         public void CarregarPagina()
@@ -42,7 +47,7 @@ namespace ANPAdmin.InterfaceTests.PageObjects
         {
             _driver.Submit(By.Id("btnSubmitForm"));
 
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(20));
             wait.Until((d) => d.FindElement(By.Id("div-error")) != null);
         }
 
@@ -50,7 +55,7 @@ namespace ANPAdmin.InterfaceTests.PageObjects
         {
             _driver.Submit(By.Id("btnSubmitForm"));
 
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(20));
             wait.Until((d) => d.FindElement(By.Id("lbl-user-email")) != null);
         }
 
@@ -61,6 +66,7 @@ namespace ANPAdmin.InterfaceTests.PageObjects
 
         public string ObterEmailLogado()
         {
+            var teste = _driver.PageSource;
             return _driver.GetText(By.Id("lbl-user-email"));
         }
 
