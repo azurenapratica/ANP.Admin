@@ -70,4 +70,21 @@ stages:
               SlotName: 'homolog'
               packageForLinux: '$(System.ArtifactsDirectory)/drop/ANPAdmin.UI.zip'
               RuntimeStack: 'DOTNETCORE|3.1'
-
+          - task: ExtractFiles@1
+            inputs:
+              archiveFilePatterns: '$(System.ArtifactsDirectory)/drop/TestesInterface.zip'
+              destinationFolder: 'TestesInterface'
+              cleanDestinationFolder: true
+              overwriteExistingFiles: false
+          - task: VisualStudioTestPlatformInstaller@1
+            inputs:
+              packageFeedSelector: 'nugetOrg'
+              versionSelector: 'latestPreRelease'
+          - task: VSTest@2
+            inputs:
+              testSelector: 'testAssemblies'
+              testAssemblyVer2: |
+                **\*test*.dll
+                !**\*TestAdapter.dll
+                !**\obj\**
+              searchFolder: '$(System.DefaultWorkingDirectory)'
