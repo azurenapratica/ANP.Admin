@@ -46,27 +46,29 @@ stages:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'drop'
             publishLocation: 'Container'
-    
-    - job: Deploy_Homolog
-      pool:
-        vmImage: ubuntu-latest
-      dependsOn: Build
-      steps:
-        - task: DownloadBuildArtifacts@0
-          inputs:
-            buildType: 'current'
-            downloadType: 'single'
-            artifactName: 'drop'
-            downloadPath: '$(System.ArtifactsDirectory)'
-        - task: AzureRmWebAppDeployment@4
-          inputs:
-            ConnectionType: 'AzureRM'
-            azureSubscription: 'Microsoft Azure Sponsorship(ff737bc0-dba1-4359-af80-837301207505)'
-            appType: 'webAppLinux'
-            WebAppName: 'anpcomm-admin-exemplo'
-            deployToSlotOrASE: true
-            ResourceGroupName: 'masterclass-azuredevops-exemplo'
-            SlotName: 'homolog'
-            packageForLinux: '$(System.ArtifactsDirectory)/drop/ANPAdmin.UI.zip'
-            RuntimeStack: 'DOTNETCORE|3.1'
+ - stage: DeployHomolog
+   displayName:  Faz Deploy do App em Homolog
+   jobs:
+      - job: Deploy_Homolog
+        pool:
+          vmImage: ubuntu-latest
+        dependsOn: Build
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'drop'
+              downloadPath: '$(System.ArtifactsDirectory)'
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Microsoft Azure Sponsorship(ff737bc0-dba1-4359-af80-837301207505)'
+              appType: 'webAppLinux'
+              WebAppName: 'anpcomm-admin-exemplo'
+              deployToSlotOrASE: true
+              ResourceGroupName: 'masterclass-azuredevops-exemplo'
+              SlotName: 'homolog'
+              packageForLinux: '$(System.ArtifactsDirectory)/drop/ANPAdmin.UI.zip'
+              RuntimeStack: 'DOTNETCORE|3.1'
 
