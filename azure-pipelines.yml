@@ -55,6 +55,6 @@ jobs:
         deployToSlotOrASE: true
         ResourceGroupName: 'masterclass-azuredevops-exemplo'
         SlotName: 'homolog'
-        packageForLinux: '$(System.ArtifactsDirectory)/**/*'
+        packageForLinux: '$(System.ArtifactsDirectory)/drop/ANPAdmin.UI.zip'
         RuntimeStack: 'DOTNETCORE|3.1'
 
