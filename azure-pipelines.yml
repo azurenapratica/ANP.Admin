@@ -6,55 +6,79 @@ variables:
   value: ./ANPAdmin.sln
 - name: projPath
   value: ./ANPAdmin.UI/ANPAdmin.UI.csproj
+- name: interfaceTestProjectPath
+  value: ./ANPAdmin.UI/ANPAdmin.UI.csproj  
   
-
-jobs:
- - job: Build
-   pool:
-    vmImage: ubuntu-latest
-   steps:
-    - task: DotNetCoreCLI@2
-      displayName: "Restore Dependencies"
-      inputs:
-        command: 'restore'
-        projects: '$(slnPath)'
-        feedsToUse: 'select'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'build'
-        projects: '$(slnPath)'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'publish'
-        publishWebProjects: false
-        projects: '$(projPath)'
-        arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
- 
- - job: Deploy_Homolog
-   pool:
-    vmImage: ubuntu-latest
-   dependsOn: Build
-   steps:
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
-        downloadPath: '$(System.ArtifactsDirectory)'
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'Microsoft Azure Sponsorship(ff737bc0-dba1-4359-af80-837301207505)'
-        appType: 'webAppLinux'
-        WebAppName: 'anpcomm-admin-exemplo'
-        deployToSlotOrASE: true
-        ResourceGroupName: 'masterclass-azuredevops-exemplo'
-        SlotName: 'homolog'
-        packageForLinux: '$(System.ArtifactsDirectory)/drop/ANPAdmin.UI.zip'
-        RuntimeStack: 'DOTNETCORE|3.1'
-
+stages:
+ - stage: BuildAndTest
+   displayName:  Compilar e Testes de Unidade
+   jobs:
+    - job: Build
+      pool:
+        vmImage: ubuntu-latest
+      steps:
+        - task: DotNetCoreCLI@2
+          displayName: "Restore Dependencies"
+          inputs:
+            command: 'restore'
+            projects: '$(slnPath)'
+            feedsToUse: 'select'
+        - task: DotNetCoreCLI@2
+          displayName: "Build Solution"
+          inputs:
+            command: 'build'
+            projects: '$(slnPath)'
+        - task: ArchiveFiles@2
+          inputs:
+            rootFolderOrFile: './ANPAdmin.InterfaceTests/bin/Debug/netcoreapp3.1/'
+            includeRootFolder: false
+            archiveType: 'zip'
+            archiveFile: '$(Build.ArtifactStagingDirectory)/TestesInterface.zip'
+            replaceExistingArchive: true
+        - task: DotNetCoreCLI@2
+          inputs:
+            command: 'publish'
+            publishWebProjects: false
+            projects: '$(projPath)'
+            arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'drop'
+            publishLocation: 'Container'
+ - stage: DeployHomolog
+   displayName:  Faz Deploy do App em Homolog
+   jobs:
+      - job: Deploy_Homolog
+        pool:
+          vmImage: windows-latest
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'drop'
+              downloadPath: '$(System.ArtifactsDirectory)'
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Microsoft Azure Sponsorship(ff737bc0-dba1-4359-af80-837301207505)'
+              appType: 'webAppLinux'
+              WebAppName: 'anpcomm-admin-exemplo'
+              deployToSlotOrASE: true
+              ResourceGroupName: 'masterclass-azuredevops-exemplo'
+              SlotName: 'homolog'
+              packageForLinux: '$(System.ArtifactsDirectory)/drop/ANPAdmin.UI.zip'
+              RuntimeStack: 'DOTNETCORE|3.1'
+          - task: ExtractFiles@1
+            inputs:
+              archiveFilePatterns: '$(System.ArtifactsDirectory)/drop/TestesInterface.zip'
+              destinationFolder: 'TestesInterface'
+              cleanDestinationFolder: true
+              overwriteExistingFiles: false
+          - task: VSTest@2
+            inputs:
+              testSelector: 'testAssemblies'
+              testAssemblyVer2: '**\ANPAdmin.InterfaceTests.dll'
+              searchFolder: '$(System.DefaultWorkingDirectory)'
+              uiTests: true
