@@ -111,7 +111,7 @@ stages:
      displayName: deploy Web App
      pool:
       vmImage: 'Ubuntu-latest'
-     environment: 'production'
+     environment: 'ANPComm Admin Prod'
      strategy:
       runOnce:
         deploy:
