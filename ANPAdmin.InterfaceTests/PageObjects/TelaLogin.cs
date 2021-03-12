@@ -65,6 +65,10 @@ namespace ANPAdmin.InterfaceTests.PageObjects
         public string ObterMensagemDeErro()
         {
             Screenshot screenShot = ((ITakesScreenshot)_driver).GetScreenshot();
+
+            if (!Directory.Exists("Screenshots"))
+                Directory.CreateDirectory("Screenshots");
+
             string fileName = "Screenshots/Screenshot_" + "TelaLogin_MensagemErro.png";
             screenShot.SaveAsFile((fileName), ScreenshotImageFormat.Png);
 
@@ -74,6 +78,10 @@ namespace ANPAdmin.InterfaceTests.PageObjects
         public string ObterEmailLogado()
         {
             Screenshot screenShot = ((ITakesScreenshot)_driver).GetScreenshot();
+            
+            if (!Directory.Exists("Screenshots"))
+                Directory.CreateDirectory("Screenshots");
+
             string fileName = "Screenshots/Screenshot_" + "TelaLogin_Sucesso.png";
             screenShot.SaveAsFile((fileName), ScreenshotImageFormat.Png);
 
