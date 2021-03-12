@@ -88,16 +88,17 @@ stages:
               testAssemblyVer2: '**\ANPAdmin.InterfaceTests.dll'
               searchFolder: '$(System.DefaultWorkingDirectory)'
               uiTests: true
+          - task: DeleteFiles@1
+            displayName: Exclui os arquivos da pasta drop
+            inputs:
+              SourceFolder: '$(Build.ArtifactStagingDirectory)'
+              Contents: '**'              
           - task: CopyFiles@2
-            displayName: Copy Screenshots
+            displayName: Copia os prints das evidencias de testes
             inputs:
               SourceFolder: '$(System.DefaultWorkingDirectory)/TestesInterface/Screenshots/'
               Contents: '**'
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
-          - task: DeleteFiles@1
-            inputs:
-              SourceFolder: '$(Build.ArtifactStagingDirectory)'
-              Contents: '**'
           - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
