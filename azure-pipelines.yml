@@ -84,3 +84,4 @@ stages:
                 !**\*TestAdapter.dll
                 !**\obj\**
               searchFolder: '$(System.DefaultWorkingDirectory)'
+              uiTests: true
