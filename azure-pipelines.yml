@@ -30,7 +30,7 @@ stages:
             projects: '$(slnPath)'
         - task: ArchiveFiles@2
           inputs:
-            rootFolderOrFile: './ANPAdmin.InterfaceTests/bin/Debug/netcoreapp3.1'
+            rootFolderOrFile: './ANPAdmin.InterfaceTests/bin/Debug/netcoreapp3.1/**/*'
             includeRootFolder: true
             archiveType: 'zip'
             archiveFile: '$(Build.ArtifactStagingDirectory)/TestesInterface.zip'
