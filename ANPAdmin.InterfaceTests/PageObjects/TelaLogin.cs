@@ -16,13 +16,13 @@ namespace ANPAdmin.InterfaceTests.PageObjects
             _cenario = cenario;
 
             var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArgument("--headless");
+            //chromeOptions.AddArgument("--headless");
 
             chromeOptions.SetLoggingPreference(LogType.Browser, LogLevel.Off);
             chromeOptions.SetLoggingPreference(LogType.Driver, LogLevel.Off);
 
-            if (!string.IsNullOrWhiteSpace("CaminhoDriverChrome"))
-                _driver = new ChromeDriver("CaminhoDriverChrome", chromeOptions);
+            if (!string.IsNullOrWhiteSpace("C:\\ChromeDriver\\"))
+                _driver = new ChromeDriver("C:\\ChromeDriver\\", chromeOptions);
             else
                 _driver = new ChromeDriver(chromeOptions);
         }
@@ -30,7 +30,17 @@ namespace ANPAdmin.InterfaceTests.PageObjects
         public void CarregarPagina()
         {
             _driver.LoadPage(
-                TimeSpan.FromSeconds(Convert.ToInt32("")), "");
+                TimeSpan.FromSeconds(5), "https://anpcomm-admin-exemplo-homolog.azurewebsites.net/Login");
+        }
+
+        public void PreencherCampo(string idCampo, string valor)
+        {
+            _driver.SetText(By.Id(idCampo), valor);
+        }
+
+        public void EfetuarLogin()
+        {
+            _driver.Submit(By.Id(""));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using ANPAdmin.InterfaceTests.PageObjects;
+using TechTalk.SpecFlow;
 
 namespace ANPAdmin.InterfaceTests
 {
@@ -12,6 +13,8 @@ namespace ANPAdmin.InterfaceTests
         public LoginUsuarioStepDefinition(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
+            var telaLogin = new TelaLogin(_scenarioContext.ScenarioInfo.Title);
+            telaLogin.CarregarPagina();
 
         }
 
