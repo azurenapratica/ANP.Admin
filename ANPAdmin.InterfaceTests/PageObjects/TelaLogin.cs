@@ -40,7 +40,21 @@ namespace ANPAdmin.InterfaceTests.PageObjects
 
         public void EfetuarLogin()
         {
-            _driver.Submit(By.Id(""));
+            _driver.Submit(By.Id("btnSubmitForm"));
+
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+            wait.Until((d) => d.FindElement(By.Id("div-error")) != null);
+        }
+
+        public string ObterMensagemDeErro()
+        {
+            return _driver.GetText(By.Id("div-error"));
+        }
+
+        public void Fechar()
+        {
+            _driver.Quit();
+            _driver = null;
         }
     }
 }

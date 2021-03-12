@@ -1,5 +1,6 @@
 ﻿using ANPAdmin.InterfaceTests.PageObjects;
 using TechTalk.SpecFlow;
+using Xunit;
 
 namespace ANPAdmin.InterfaceTests
 {
@@ -9,46 +10,39 @@ namespace ANPAdmin.InterfaceTests
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
         private readonly ScenarioContext _scenarioContext;
+        private TelaLogin _telaLogin;
 
         public LoginUsuarioStepDefinition(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            var telaLogin = new TelaLogin(_scenarioContext.ScenarioInfo.Title);
-            telaLogin.CarregarPagina();
+            _telaLogin = new TelaLogin(_scenarioContext.ScenarioInfo.Title);
+            _telaLogin.CarregarPagina();
 
         }
 
         [Given("que o usuario digite o email (.*)")]
         public void QueOUsuarioDigiteOEmail(string email)
         {
+            _telaLogin.PreencherCampo("email", email);
         }
 
         [Given("a senha (.*)")]
-        public void GivenTheSecondNumberIs(int number)
+        public void GivenTheSecondNumberIs(string senha)
         {
-            //TODO: implement arrange (precondition) logic
-            // For storing and retrieving scenario-specific data see https://go.specflow.org/doc-sharingdata 
-            // To use the multiline text or the table argument of the scenario,
-            // additional string/Table parameters can be defined on the step definition
-            // method. 
-
-            _scenarioContext.Pending();
+            _telaLogin.PreencherCampo("password", senha);
         }
 
         [When("o usuario clicar no botão login")]
         public void WhenTheTwoNumbersAreAdded()
         {
-            //TODO: implement act (action) logic
-
-            _scenarioContext.Pending();
+            _telaLogin.EfetuarLogin();
         }
 
-        [Then("the result should be (.*)")]
-        public void ThenTheResultShouldBe(int result)
+        [Then("mostra uma mensagem de erro na tela")]
+        public void ThenTheResultShouldBe()
         {
-            //TODO: implement assert (verification) logic
-
-            _scenarioContext.Pending();
+            var resultado = _telaLogin.ObterMensagemDeErro();
+            Assert.Equal("", resultado);
         }
     }
 }
