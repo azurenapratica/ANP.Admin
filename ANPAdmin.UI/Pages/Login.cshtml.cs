@@ -30,19 +30,22 @@ namespace ANPAdmin.UI.Pages
             _auth = auth;
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            await Task.Run(() =>
+            var user = _auth.Login(Email, Password);
+
+            if (user == null)
             {
-                _auth.Login(Email, Password);
-                var user = new UserModel(Email);
-                SessionHelper.SetObjectAsJson(HttpContext.Session, "USER_LOGIN", user);
-            });
+                ModelState.AddModelError("INVALID_CREDENTIALS", "Usuário ou senha inválidos.");
+                return Page();
+            }
+
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "USER_LOGIN", user);
 
             return RedirectToPage("./Index");
         }

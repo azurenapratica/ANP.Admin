@@ -19,7 +19,7 @@ namespace ANPAdmin.InterfaceTests
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class LoginUsuarioFeature : object, Xunit.IClassFixture<LoginUsuarioFeature.FixtureData>, System.IDisposable
+    public partial class FluxoDeLoginDoUsuarioFeature : object, Xunit.IClassFixture<FluxoDeLoginDoUsuarioFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -31,7 +31,7 @@ namespace ANPAdmin.InterfaceTests
 #line 1 "LoginUsuario.feature"
 #line hidden
         
-        public LoginUsuarioFeature(LoginUsuarioFeature.FixtureData fixtureData, ANPAdmin_InterfaceTests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public FluxoDeLoginDoUsuarioFeature(FluxoDeLoginDoUsuarioFeature.FixtureData fixtureData, ANPAdmin_InterfaceTests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace ANPAdmin.InterfaceTests
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("pt-BR"), "", "LoginUsuario", "\tSimple calculator for adding two numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("pt-BR"), "", "Fluxo de Login do Usuario", "\tSimple calculator for adding two numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -81,7 +81,7 @@ namespace ANPAdmin.InterfaceTests
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Efetuar Login com Dados Inválidos")]
-        [Xunit.TraitAttribute("FeatureTitle", "LoginUsuario")]
+        [Xunit.TraitAttribute("FeatureTitle", "Fluxo de Login do Usuario")]
         [Xunit.TraitAttribute("Description", "Efetuar Login com Dados Inválidos")]
         public virtual void EfetuarLoginComDadosInvalidos()
         {
@@ -118,14 +118,14 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("o usuario clicar no botão login", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
 #line hidden
 #line 8
- testRunner.Then("informará que o usuario e senha estão inválidos", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
+ testRunner.Then("mostra uma mensagem de erro na tela", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Efetuar Login com Dados Válidos")]
-        [Xunit.TraitAttribute("FeatureTitle", "LoginUsuario")]
+        [Xunit.TraitAttribute("FeatureTitle", "Fluxo de Login do Usuario")]
         [Xunit.TraitAttribute("Description", "Efetuar Login com Dados Válidos")]
         public virtual void EfetuarLoginComDadosValidos()
         {
@@ -162,7 +162,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("o usuario clicar no botão login", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quando ");
 #line hidden
 #line 14
- testRunner.Then("informará que o usuario e senha estão inválidos", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
+ testRunner.Then("redireciona o usuario para a página inicial", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Então ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -175,12 +175,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                LoginUsuarioFeature.FeatureSetup();
+                FluxoDeLoginDoUsuarioFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                LoginUsuarioFeature.FeatureTearDown();
+                FluxoDeLoginDoUsuarioFeature.FeatureTearDown();
             }
         }
     }

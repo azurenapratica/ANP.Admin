@@ -12,6 +12,7 @@ namespace ANPAdmin.InterfaceTests
         public LoginUsuarioStepDefinition(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
+
         }
 
         [Given("que o usuario digite o email (.*)")]
@@ -19,7 +20,7 @@ namespace ANPAdmin.InterfaceTests
         {
         }
 
-        [Given("the second number is (.*)")]
+        [Given("a senha (.*)")]
         public void GivenTheSecondNumberIs(int number)
         {
             //TODO: implement arrange (precondition) logic
@@ -31,7 +32,7 @@ namespace ANPAdmin.InterfaceTests
             _scenarioContext.Pending();
         }
 
-        [When("the two numbers are added")]
+        [When("o usuario clicar no botão login")]
         public void WhenTheTwoNumbersAreAdded()
         {
             //TODO: implement act (action) logic

@@ -72,6 +72,7 @@ namespace ANPAdmin.UI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
         }
