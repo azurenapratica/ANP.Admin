@@ -11,12 +11,12 @@ namespace ANPAdmin.InterfaceTests.PageObjects
     public class TelaLogin
     {
         private ChromeDriver _driver;
-        //private readonly string _envHomologUrl = Environment.GetEnvironmentVariable("APP_URL");
-        //private readonly string _envChromeDriverPath = Environment.GetEnvironmentVariable("CHROME_DRIVER_PATH");
-        //private readonly string _envAgentPath = Environment.GetEnvironmentVariable("AGENT_PATH");
-        private readonly string _envChromeDriverPath = "C:\\chromedriver";
-        private readonly string _envHomologUrl = "https://anpcomm-admin-exemplo-homolog.azurewebsites.net/login";
-        private readonly string _envAgentPath = Directory.GetCurrentDirectory();
+        private readonly string _envHomologUrl = Environment.GetEnvironmentVariable("APP_URL");
+        private readonly string _envChromeDriverPath = Environment.GetEnvironmentVariable("CHROME_DRIVER_PATH");
+        private readonly string _envAgentPath = Environment.GetEnvironmentVariable("AGENT_PATH");
+        //private readonly string _envChromeDriverPath = "C:\\chromedriver";
+        //private readonly string _envHomologUrl = "https://anpcomm-admin-exemplo-homolog.azurewebsites.net/login";
+        //private readonly string _envAgentPath = Directory.GetCurrentDirectory();
 
         public TelaLogin()
         {
