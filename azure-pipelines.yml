@@ -4,6 +4,9 @@ trigger:
 variables:
 - name: slnPath
   value: ./ANPAdmin.sln
+- name: projPath
+  value: ./ANPAdmin.UI/ANPAdmin.UI.csproj
+  
 
 jobs:
  - job: Build
@@ -13,6 +16,11 @@ jobs:
    - bash: |
       dotnet restore $(slnPath)
       dotnet build $(slnPath)
-
+      dotnet publish $(projPath) --configuration Release --output $(Build.ArtifactStagingDirectory)
+   - task: PublishBuildArtifacts@1
+     inputs:
+       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+       ArtifactName: 'drop'
+       publishLocation: 'Container'
 
 
