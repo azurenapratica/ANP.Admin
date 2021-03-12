@@ -105,6 +105,7 @@ stages:
               ArtifactName: 'drop'
               publishLocation: 'Container'
  - stage: DeployProd
+   displayName: Faz Deploy em Prod
    jobs:
    - deployment: DeployWeb
      displayName: deploy Web App
