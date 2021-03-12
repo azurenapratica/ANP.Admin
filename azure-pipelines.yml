@@ -1,13 +1,18 @@
 trigger:
 - master
 
+variables:
+- name: slnPath
+  value: ./ANPAdmin.sln
+
 jobs:
  - job: Build
    pool:
     vmImage: ubuntu-latest
    steps:
    - bash: |
-      dotnet build ./ANPAdmin.sln
+      dotnet restore $(slnPath)
+      dotnet build $(slnPath)
 
 
 
