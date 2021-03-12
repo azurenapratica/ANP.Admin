@@ -10,7 +10,8 @@ variables:
   value: ./ANPAdmin.UI/ANPAdmin.UI.csproj  
   
 stages:
- - stage: Build and Test Project
+ - stage: BuildAndTest
+   displayName:  Compilar e Testes de Unidade
    jobs:
     - job: Build
       pool:
