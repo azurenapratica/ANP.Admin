@@ -1,5 +1,10 @@
 trigger:
-- master
+ branches:
+  include:
+     - master
+ paths:
+  exclude:
+  - azure-pipelines.yml
 
 variables:
 - name: slnPath
@@ -77,8 +82,20 @@ stages:
               cleanDestinationFolder: true
               overwriteExistingFiles: false
           - task: VSTest@2
+            displayName: Execute Interface Tests
             inputs:
               testSelector: 'testAssemblies'
               testAssemblyVer2: '**\ANPAdmin.InterfaceTests.dll'
               searchFolder: '$(System.DefaultWorkingDirectory)'
               uiTests: true
+          - task: CopyFiles@2
+            displayName: Copy Screenshots
+            inputs:
+              SourceFolder: '$(System.DefaultWorkingDirectory)/TestesInterface/Screenshots/'
+              Contents: '**'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'                        
