@@ -13,6 +13,8 @@ variables:
   value: ./ANPAdmin.UI/ANPAdmin.UI.csproj
 - name: interfaceTestProjectPath
   value: ./ANPAdmin.UI/ANPAdmin.UI.csproj  
+- name: unitTestProjectPath
+  value: ./ANPAdmin.UI/ANPAdmin.UnitTests.csproj    
   
 stages:
  - stage: BuildAndTest
@@ -33,6 +35,11 @@ stages:
           inputs:
             command: 'build'
             projects: '$(slnPath)'
+        - task: DotNetCoreCLI@2
+          displayName: "Testar Projeto de Unidade"
+          inputs:
+            command: 'test'
+            projects: '$(unitTestProjectPath)'
         - task: ArchiveFiles@2
           inputs:
             rootFolderOrFile: './ANPAdmin.InterfaceTests/bin/Debug/netcoreapp3.1/'
