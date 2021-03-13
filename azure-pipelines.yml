@@ -40,6 +40,7 @@ stages:
           inputs:
             command: 'test'
             projects: '$(unitTestProjectPath)'
+            testRunTitle: 'Testes de Unidade'
         - task: ArchiveFiles@2
           inputs:
             rootFolderOrFile: './ANPAdmin.InterfaceTests/bin/Debug/netcoreapp3.1/'
@@ -95,7 +96,7 @@ stages:
               testAssemblyVer2: '**\ANPAdmin.InterfaceTests.dll'
               searchFolder: '$(System.DefaultWorkingDirectory)'
               uiTests: true
-              testRunTitle: 'Testes de Unidade'
+              testRunTitle: 'Testes de Interface'
           - task: DeleteFiles@1
             displayName: Exclui os arquivos da pasta drop
             inputs:
