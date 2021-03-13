@@ -104,6 +104,29 @@ stages:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: 'drop'
               publishLocation: 'Container'
+ 
+ - stage: DeployPreProd
+   displayName: Deploy PreProd
+   jobs:
+    - deployment: DeployWeb
+      displayName: deploy Web App
+      pool:
+        vmImage: 'Ubuntu-latest'
+      environment: 'ANPComm Admin PreProd'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: AzureAppServiceManage@0
+              inputs:
+                azureSubscription: 'Microsoft Azure Sponsorship(ff737bc0-dba1-4359-af80-837301207505)'
+                Action: 'Swap Slots'
+                WebAppName: 'anpcomm-admin-exemplo'
+                ResourceGroupName: 'masterclass-azuredevops-exemplo'
+                SourceSlot: 'homolog'
+                SwapWithProduction: false
+                TargetSlot: 'preprod'
+ 
  - stage: DeployProd
    displayName: Faz Deploy em Prod
    jobs:
@@ -123,4 +146,4 @@ stages:
               Action: 'Swap Slots'
               WebAppName: 'anpcomm-admin-exemplo'
               ResourceGroupName: 'masterclass-azuredevops-exemplo'
-              SourceSlot: 'homolog'          
+              SourceSlot: 'preprod'
