@@ -14,7 +14,7 @@ variables:
 - name: interfaceTestProjectPath
   value: ./ANPAdmin.UI/ANPAdmin.UI.csproj  
 - name: unitTestProjectPath
-  value: ./ANPAdmin.UnitTests.csproj    
+  value: ./ANPAdmin.UnitTests/ANPAdmin.UnitTests.csproj    
   
 stages:
  - stage: BuildAndTest
