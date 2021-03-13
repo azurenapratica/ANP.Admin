@@ -14,24 +14,24 @@ variables:
 - name: interfaceTestProjectPath
   value: ./ANPAdmin.UI/ANPAdmin.UI.csproj  
 - name: unitTestProjectPath
-  value: ./ANPAdmin.UI/ANPAdmin.UnitTests.csproj    
+  value: ./ANPAdmin.UnitTests.csproj    
   
 stages:
  - stage: BuildAndTest
    displayName:  Compilar e Testes de Unidade
    jobs:
-    - job: Build
+    - job: Build_And_Test
       pool:
         vmImage: ubuntu-latest
       steps:
         - task: DotNetCoreCLI@2
-          displayName: "Restore Dependencies"
+          displayName: "Baixar Dependencias"
           inputs:
             command: 'restore'
             projects: '$(slnPath)'
             feedsToUse: 'select'
         - task: DotNetCoreCLI@2
-          displayName: "Build Solution"
+          displayName: "Compilar Projeto"
           inputs:
             command: 'build'
             projects: '$(slnPath)'
@@ -95,6 +95,7 @@ stages:
               testAssemblyVer2: '**\ANPAdmin.InterfaceTests.dll'
               searchFolder: '$(System.DefaultWorkingDirectory)'
               uiTests: true
+              testRunTitle: 'Testes de Unidade'
           - task: DeleteFiles@1
             displayName: Exclui os arquivos da pasta drop
             inputs:
